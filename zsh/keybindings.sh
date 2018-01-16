@@ -40,9 +40,9 @@
 	zle -N edit_and_run
 	bindkey "^v" edit_and_run
 
-# LS
+# clear
 	function ctrl_l() {
-		BUFFER="ls"
+		BUFFER="clear"
 		zle accept-line
 	}
 	zle -N ctrl_l
