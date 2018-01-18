@@ -7,7 +7,7 @@ setopt PROMPT_SUBST
 set_prompt() {
 
 	# [
-	PS1="%{$fg[white]%}[%{$reset_color%}"
+	PS1="%{$fg[white]%}[%{$fg_bold[white]%}%M %{$reset_color%}"
 
 	# Path: http://stevelosh.com/blog/2010/02/my-extravagant-zsh-prompt/
 	PS1+="%{$fg_bold[cyan]%}${PWD/#$HOME/~}%{$reset_color%}"
