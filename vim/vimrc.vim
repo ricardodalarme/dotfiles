@@ -21,7 +21,7 @@
 
 	nnoremap H 0
 	nnoremap L $
-	nnoremap J G
+"	nnoremap J G
 	nnoremap K gg
 
 	map <tab> %
