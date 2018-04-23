@@ -5,6 +5,7 @@
 	PATH=$PATH:~/bin
 	setopt inc_append_history # To save every command before it is executed 
 	setopt share_history # setopt inc_append_history
+	export GOPATH
 
 # Aliases
 	alias v="vim -p"
