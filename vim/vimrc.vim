@@ -7,6 +7,11 @@
 	set dir=/tmp/
 	set relativenumber 
 	set number
+	set nowrap
+
+	filetype on
+	filetype plugin on
+	filetype indent on
 
 	set cursorline
 	hi Cursor ctermfg=White ctermbg=Yellow cterm=bold guifg=white guibg=yellow gui=bold
@@ -39,6 +44,10 @@
 	set mouse=a
 	set incsearch
 
+" Pugins
+	" Setting Pathogen uo
+		execute pathogen#infect()
+
 " Language Specific
 	" General
 		inoremap <leader>for <esc>Ifor (int i = 0; i < <esc>A; i++) {<enter>}<esc>O<tab>
@@ -62,8 +71,10 @@
 		vnoremap <leader>out yOprintf(, <esc>pA);<esc>h%a
 
 	" Typescript
-		autocmd BufNewFile,BufRead *.ts set syntax=javascript
-		autocmd BufNewFile,BufRead *.tsx set syntax=javascript
+		"let g:typescript_compiler_binary = 'tsc'
+		"let g:typescript_compiler_options = ''
+		"autocmd QuickFixCmdPost [^l]* nested cwindow
+		"autocmd QuickFixCmdPost    l* nested lwindow
 
 	" Markup
 		inoremap <leader>< <esc>I<<esc>A><esc>yypa/<esc>O<tab>
