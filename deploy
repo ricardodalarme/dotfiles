@@ -54,7 +54,7 @@ check_default_shell() {
 vim_plugin_prompt_install() {
 	if ! [ -x "$(command -v git)" ]; then
 		echo "Ops! A instalação do pathogen utiliza o comando 'curl'."
-		prompt_install(git)
+		prompt_install git
 	fi
 	if [ -e ~/.vim/bundle/$(basename $1) ]; then
 		echo "O plugin $(basename $1) já está instalado."
@@ -80,7 +80,7 @@ vim_plugins_install() {
 		echo "O pathogen parece não estar instalado. Istalando"
 		if ! [ -x "$(command -v curl)" ]; then
 			echo "Ops! A instalação do pathogen utiliza o comando 'curl'."
-			prompt_install(curl)
+			prompt_install curl
 		fi
 		mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 	fi
