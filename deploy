@@ -85,8 +85,9 @@ vim_plugins_install() {
 		mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 	fi
 
-	echo "Instalados pugins para o vim:"
+	echo "Instalando pugins para o vim:"
 	vim_plugin_prompt_install https://github.com/leafgarland/typescript-vim.git
+	vim_plugin_prompt_install https://github.com/scrooloose/nerdtree.git
 }
 
 echo "O procedimento de instalação é"
@@ -123,7 +124,7 @@ check_default_shell
 vim_plugins_install
 
 echo
-echo -n "Would you like to backup your current dotfiles? (y/n) "
+echo -n "Você gostaria de salvar os atuais dotfiles? (y/n) "
 old_stty_cfg=$(stty -g)
 stty raw -echo
 answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
@@ -133,7 +134,7 @@ if echo "$answer" | grep -iq "^y" ;then
 	mv ~/.tmux.conf ~/.tmux.conf.old
 	mv ~/.vimrc ~/.vimrc.old
 else
-	echo -e "\nNot backing up old dotfiles."
+	echo -e "\nSaindo sem copiar os antigos dotfiles."
 fi
 
 printf "source '$HOME/dotfiles/zsh/zshrc_manager.sh'" > ~/.zshrc
