@@ -8,6 +8,7 @@
 	set relativenumber 
 	set number
 	set nowrap
+	set background=dark
 
 	filetype on
 	filetype plugin on
