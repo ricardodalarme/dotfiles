@@ -88,6 +88,8 @@ vim_plugins_install() {
 	echo "Instalando pugins para o vim:"
 	vim_plugin_prompt_install https://github.com/leafgarland/typescript-vim.git
 	vim_plugin_prompt_install https://github.com/scrooloose/nerdtree.git
+	vim_plugin_prompt_install https://github.com/alvan/vim-closetag.git
+	vim_plugin_prompt_install https://github.com/jiangmiao/auto-pairs.git
 }
 
 echo "O procedimento de instalação é"
