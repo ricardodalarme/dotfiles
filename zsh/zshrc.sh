@@ -2,7 +2,7 @@
 	HISTFILE=~/.zsh_history
 	SAVEHIST=1000 
 	GOPATH=~/prog/go
-	PATH=$PATH:~/bin
+	PATH=$PATH:~/bin:$GOPATH/bin
 	setopt inc_append_history # To save every command before it is executed 
 	setopt share_history # setopt inc_append_history
 	export GOPATH

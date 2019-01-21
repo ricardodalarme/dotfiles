@@ -1,6 +1,5 @@
 " General Vim settings
 	syntax on
-	let mapleader=","
 	set autoindent
 	set tabstop=4
 	set shiftwidth=4
@@ -19,8 +18,13 @@
 
 	set hlsearch
 	nnoremap <C-l> :nohl<CR><C-l>:echo "Search Cleared"<CR>
-	nnoremap <C-c> :set norelativenumber<CR>:set nonumber<CR>:echo "Line numbers turned off."<CR>
-	nnoremap <C-n> :set relativenumber<CR>:set number<CR>:echo "Line numbers turned on."<CR>
+
+" Configurações relacionadas com vim-go
+	map <C-n> :cnext<CR>
+	map <C-m> :cprevious<CR>
+	nnoremap <leader>a :cclose<CR>
+	autocmd FileType go nmap <leader>b  <Plug>(go-build)
+	autocmd FileType go nmap <leader>r  <Plug>(go-run)
 
 	nnoremap n nzzzv
 	nnoremap N Nzzzv
@@ -53,29 +57,12 @@
 	" General
 		inoremap <leader>for <esc>Ifor (int i = 0; i < <esc>A; i++) {<enter>}<esc>O<tab>
 		inoremap <leader>if <esc>Iif (<esc>A) {<enter>}<esc>O<tab>
-		
-
-	" Java
-		inoremap <leader>sys <esc>ISystem.out.println(<esc>A);
-		vnoremap <leader>sys yOSystem.out.println(<esc>pA);
-
-	" Java
-		inoremap <leader>con <esc>Iconsole.log(<esc>A);
-		vnoremap <leader>con yOconsole.log(<esc>pA);
-
-	" C++
-		inoremap <leader>cout <esc>Istd::cout << <esc>A << std::endl;
-		vnoremap <leader>cout yOstd::cout << <esc>pA << std:endl;
-
-	" C
-		inoremap <leader>out <esc>Iprintf(<esc>A);<esc>2hi
-		vnoremap <leader>out yOprintf(, <esc>pA);<esc>h%a
 
 	" Typescript
-		"let g:typescript_compiler_binary = 'tsc'
-		"let g:typescript_compiler_options = ''
-		"autocmd QuickFixCmdPost [^l]* nested cwindow
-		"autocmd QuickFixCmdPost    l* nested lwindow
+		let g:typescript_compiler_binary = 'tsc'
+		let g:typescript_compiler_options = ''
+		autocmd QuickFixCmdPost [^l]* nested cwindow
+		autocmd QuickFixCmdPost    l* nested lwindow
 
 	" Markup
 		inoremap <leader>< <esc>I<<esc>A><esc>yypa/<esc>O<tab>
