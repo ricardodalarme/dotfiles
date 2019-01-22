@@ -8,6 +8,7 @@
 	set number
 	set nowrap
 	set background=dark
+	set splitright
 
 	filetype on
 	filetype plugin on
