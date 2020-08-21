@@ -1,78 +1,70 @@
-# Awesome Dotfiles
+# Dotfiles (customização de aplicativos) pessoal
 
-Simple, but extensive customization of ZSH, TMUX, and Vim. 
+Costomizações simples do ZShell, TMUX e VIM utilizadas na lida diaŕia em abiente linux.
 
-[![VideoWalkthrough](https://img.youtube.com/vi/UgDz_9i2nwc/0.jpg)](https://www.youtube.com/watch?v=UgDz_9i2nwc)
+## Instalação
 
-## Setup Options
-
-There's 3 ways in which you can use this, depending on how much you think you'll be customizing.
-
-One of the key features is that this implementation stays in sync across all your machines. So depending on how much you'd like to customize your configuration, you have a few options:
-
-* Little Customization: Just clone this repo and jump to [Installation](#installation).
-* Mild Customization: [Fork]() this repo, and clone your own fork. Keep an eye on this repo for bugfixes and other improvements that you'd like to incorporate into your fork. Then jump to [Installation](#installation).
-* Most Customization: Building your own dotfiles from scratch! Read through these docs, watch the video above, star this repo, and create your own dotfiles! You can add this repository as a [git module](https://git-scm.com/book/en/v2/Git-Tools-Submodules) and source the parts you like. 
-
-If you're unsure, just read the docs, watch the video, clone this repository, and jump to [Installation](#installation).
-
-## Installation
-
-Once the repo is cloned, execute the deploy script:
-```
+Clonar o repositório e executar o comando abaixo.
+```bash
 ./deploy
 ```
 
-This script guides you through the following:
+O script de instação executa os seguintes passos pra você:
 
-1. Checks to see if you have zsh, tmux, and vim installed. 
-2. Installs it using your default package manager if you don't have it installed.
-3. Checks to see if your default shell is zsh.
-4. Sets zsh to your default shell.
-5. Backs up your old configuration files.
+1. Testa a disponibilidade dos seguintes aplicativos
+   - zsh
+   - tmux
+   - vim
+   - xcopy (usado para transferir conteúdos copiados para a área de transfereência do ambiente gráfico)
+2. Instala o que estiver pendente utilizando o gerenciador de pacotes disponível;
+3. Confirma se o zsh é seu aplicativo de shell padrão e define isso pra vc;
+4. Faz cópias de backup dos arquivos que estão presentes e serão substituídos no processo de instalação.
 
-Pretty convenient for configuring new servers.
+# Sumário das principais definições
 
-# Sumary of Changes
+## Estrutura de funcionamento
 
-## Basic runtime opperations 
+Os _dotfiles_ padrão (`.zshrc`, `.vimrc`, etc) carregam as definições de dentro do repositório, Assim as mudaças são incorporadas e sincronizadas em todas as máquinas que utilizam este esquema.
 
-All default dotfiles (`.zshrc`, `.vimrc`, etc) source something within the dotfiles repository. This helps separate changes that are synced across all your machines with system specific changes.
-
-Upon launching a new shell, the first thing that's evaulated is `zshrc_manager.sh`. This script first launches tmux. Then once zsh logs in, within tmux, it updates the dotfiles repository, and sources the changes.
+No lançamento de uma nova shell, a primeira coisa executada é o `zshrc_manager.sh`. Assim que inicia, ele atualiza o diretório dotfiles e carrega as customizações.
 
 ## [Zsh](https://en.wikipedia.org/wiki/Z_shell)
 
-* `cd` has been reassigned to `cd` and `ls`. Every time you navigate to a new directory, it will display the contents of that directory.
-* `v` has been aliased too: `vim -p`. This let's you open multiple files in vim as tabs. 
+* `cd` foi redefinido para `cd` + `ls`. Sempre que você entra em um dado diretório, o conteúdo daquele diretório é listado,
+* `v` significa `vim -p`, facilitando a abertura multiplis arquivos como buffers do vim. 
 
-### Prompt
+### Prompt 
 
-The prompt takes on the form:
+A linha de prompt, de tendência minimalista e discretamente colorida, segue a estrutura:
 
 ```
 [plugin, plugin, ...]: 
 ```
 
+Cada plugion considera sua localização e o que você está fazendo. 
 Each plugin is sensitive to where you are and what you're doing, they reveal themselves when it's contextually relevant. Plugins include:
 
-* `PWD plugin`: always present, tells you where you are. Always the first plugin.
-* `Status code plugin`: appears anytime a program returns with a non-zero status code. Tells you what status code the program completed with. 
-* `Git plugin`: appears when you're in a git repository. Tells you what branch you're on, and how many files have been changed since the last commit.
-* `Sudo plugin`: tells you when you can sudo without a password. Or when you're logged in as root.
-* `Time plugin`: appears when a program took more than 1s to execute. Tells you how long it took to execute.
-* `PID plugin`: appears when you background a task. Tells you what the PID of the task is.
+* `hostname`: sempre presente, o nome da máquina em que o shell está rodando;
+* `PWD plugin`: sempre presente, apresenta sua localização no sistema de arquivos;
+* `Status code plugin`: aparece sempre que um programa retorna um resultado diferente de zero e apresenta o valor numérico retornado;
+* `Git plugin`: aparece quando você está em um repositório git. Apresenta o nome do branch e quantos arquivos sofreram modificação;
+* `Sudo plugin`: aparece quando vc pode executar comando de superusuário sem necessitar autenticar;
+* `Time plugin`: aparece quando um programa leva mais de 1s para concluir. Apresenta quanto tempo levou;
+* `PID plugin`: aparece quando vc manda uma tarefa para segundo plano e apresenta o PID desta tarefa.
 
-### Keybindings
-| Key Stroke | What It Does |
-|------------|--------------|
-| Ctrl-H     | Runs ``cd ~/`` |
-| Ctrl-K     | Runs ``cd ..`` |
-| Ctrl-G     | Runs ``git add -A; git commit -v && git push`` |
-| Ctrl-V     | Runs ``fc``. Takes last command and puts it in a vim buffer. |
-| Ctrl-S     | Add's ``sudo`` to the beginning of the buffer. |
-| Ctrl-L     | Run's ``ls``. |
-| Ctrl-O     | Equivalent to hitting ``Enter``. |
+### Combinações de tecla
+| Atalho     | O que faz |
+|------------|-----------|
+| Ctrl-A*    | Vai para o início da linha |
+| Ctrl-G     | Executa ``git add -A; git commit -v && git push`` |
+| Ctrl-H     | Executa ``cd ~/`` |
+| Ctrl-K*    | Apaga desde o cursor até o final da linha (copia conteúdo em buffer) |
+| Ctrl-L     | Executa ``ls``. |
+| Ctrl-O     | Equivalente à tecla ``Enter``. |
+| Ctrl-S     | Adiciona ``sudo`` ap início da linha. |
+| Ctrl-V     | Executa ``fc``. Takes last command and puts it in a vim buffer. |
+| Ctrl-Y*    | Cola o conteúdo do buffer imediatamente antes do cursor. |
+_*: conforme ocorre no bash_
 
 ### Plugins
 
