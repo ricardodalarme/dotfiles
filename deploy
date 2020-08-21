@@ -20,7 +20,7 @@ prompt_install() {
 			sudo pacman -S $1
 
 		else
-			echo "Não pudemos inferir a aplicação gerenciadora de pacotes! Tente instalar $1 por sua conta e depois execute este procedimento novamente. Os testes dos gerenciadores de pacote estão no script 'deploy' que você executou. Sinbta-se à vontade para alterar e criar 'pull requests' no repositório em https://github.com/iuriatan/dotfiles :)" 
+			echo "Não pudemos inferir a aplicação gerenciadora de pacotes! Tente instalar $1 por sua conta e depois execute este procedimento novamente." 
 		fi 
 	fi
 }
@@ -88,15 +88,14 @@ vim_plugins_install() {
 	echo "Instalando pugins para o vim:"
 	vim_plugin_prompt_install https://github.com/leafgarland/typescript-vim.git
 	vim_plugin_prompt_install https://github.com/scrooloose/nerdtree.git
-	vim_plugin_prompt_install https://github.com/alvan/vim-closetag.git
-	vim_plugin_prompt_install https://github.com/jiangmiao/auto-pairs.git
 }
 
 echo "O procedimento de instalação é"
 echo "1. Teste para assegurar que vc tenha instalados"
 echo "   . zsh,"
 echo "   . vim,"
-echo "   . tmux"
+echo "   . tmux,"
+echo "   . xclip."
 echo "2. Instalação dos que estiverem faltando"
 echo "3. Verificar se seu interpretador padrão é o zsh"
 echo "4. Tentaremos definir isto, se não estiver" 
@@ -120,6 +119,8 @@ echo
 check_for_software vim
 echo
 check_for_software tmux
+echo
+check_for_software xclip
 echo
 
 check_default_shell
