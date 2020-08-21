@@ -1,10 +1,6 @@
-# up
-#	function up_widget() {
-#		BUFFER="cd .."
-#		zle accept-line
-#	}
-#	zle -N up_widget
-#	bindkey "^k" up_widget
+# bash-like ^k and ^y
+	bindkey "^k" kill-line
+	bindkey "" vi-put-before
 
 # git
 	function git_prepare() {
@@ -62,3 +58,8 @@
 	}
 	zle -N add_sudo
 	bindkey "^s" add_sudo
+
+# Home/End/Del
+	bindkey "OH" beginning-of-line
+	bindkey "OF" end-of-line
+	bindkey "^[[3~" delete-char
