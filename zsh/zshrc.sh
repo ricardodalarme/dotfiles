@@ -52,3 +52,8 @@ if [[ "${terminfo[kcud1]}" != "" ]]; then
 fi
 
 source ~/dotfiles/zsh/prompt.sh
+
+#NVM (Node Version Manager)
+if [ -f /usr/share/nvm/init-nvm.sh ]; then
+	source /usr/share/nvm/init-nvm.sh
+fi
