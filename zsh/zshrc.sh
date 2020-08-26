@@ -1,11 +1,23 @@
 # Vars
+	# golang
+	export GOPATH=~/prog/go
+	export PATH=$PATH:~/bin:$GOPATH/bin
+
+	# react-native to use android studio
+	export ANDROID_HOME=$HOME/Android/Sdk
+	export PATH=$PATH:$ANDROID_HOME/emulator
+	export PATH=$PATH:$ANDROID_HOME/tools
+	export PATH=$PATH:$ANDROID_HOME/tools/bin
+	export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+	# dart pub
+	export PATH=$PATH:$HOME/.pub-cache/bin
+
+	# zsh config
 	HISTFILE=~/.zsh_history
 	SAVEHIST=1000 
-	GOPATH=~/prog/go
-	PATH=$PATH:~/bin:$GOPATH/bin
 	setopt inc_append_history # To save every command before it is executed 
 	setopt share_history # setopt inc_append_history
-	export GOPATH
 
 # Aliases
 	alias v="vim -p"
