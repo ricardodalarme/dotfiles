@@ -10,8 +10,9 @@
 	export PATH=$PATH:$ANDROID_HOME/tools/bin
 	export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-	# dart pub
+	# dart's package system (pub) and flutter
 	export PATH=$PATH:$HOME/.pub-cache/bin
+	export PATH=$PATH:$HOME/fvm/default/bin
 
 	# zsh config
 	HISTFILE=~/.zsh_history
