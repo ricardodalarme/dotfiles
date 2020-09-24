@@ -1,18 +1,33 @@
 # Vars
 	# golang
-	export GOPATH=~/prog/go
-	export PATH=$PATH:~/bin:$GOPATH/bin
+	if [ -d $HOME/prog/go ]; then
+		export GOPATH=~/prog/go
+		export PATH=$PATH:~/bin:$GOPATH/bin
+	fi
 
 	# react-native to use android studio
-	export ANDROID_HOME=$HOME/Android/Sdk
-	export PATH=$PATH:$ANDROID_HOME/emulator
-	export PATH=$PATH:$ANDROID_HOME/tools
-	export PATH=$PATH:$ANDROID_HOME/tools/bin
-	export PATH=$PATH:$ANDROID_HOME/platform-tools
+	if [ -d $HOME/Android/Sdk ]; then
+		export ANDROID_HOME=$HOME/Android/Sdk
+		export PATH=$PATH:$ANDROID_HOME/emulator
+		export PATH=$PATH:$ANDROID_HOME/tools
+		export PATH=$PATH:$ANDROID_HOME/tools/bin
+		export PATH=$PATH:$ANDROID_HOME/platform-tools
+	fi
 
-	# dart's package system (pub) and flutter
-	export PATH=$PATH:$HOME/.pub-cache/bin
-	export PATH=$PATH:$HOME/fvm/default/bin
+	# dart's package system (pub)
+	if [ -d $HOME/.pub-cache/bin ]; then
+		export PATH=$PATH:$HOME/.pub-cache/bin
+	fi
+
+	# flutter version manager
+	if [ -d $HOME/fvm/default/bin ]; then
+		export PATH=$PATH:$HOME/fvm/default/bin
+	fi
+
+	# yarn global utilities
+	if [ -d $HOME/.yarn/bin ]; then
+		export PATH=$PATH:$HOME/.yarn/bin
+	fi
 
 	# zsh config
 	HISTFILE=~/.zsh_history
