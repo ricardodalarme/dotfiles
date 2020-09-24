@@ -5,7 +5,7 @@
 		export PATH=$PATH:~/bin:$GOPATH/bin
 	fi
 
-	# react-native to use android studio
+	# android studio tools
 	if [ -d $HOME/Android/Sdk ]; then
 		export ANDROID_HOME=$HOME/Android/Sdk
 		export PATH=$PATH:$ANDROID_HOME/emulator
@@ -28,6 +28,14 @@
 	if [ -d $HOME/.yarn/bin ]; then
 		export PATH=$PATH:$HOME/.yarn/bin
 	fi
+
+	# nvm - node version manager
+	if [ -d $HOME/.nvm ]; then
+		export NVM_DIR="$HOME/.nvm"
+		[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+		[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+	fi
+
 
 	# zsh config
 	HISTFILE=~/.zsh_history
@@ -81,7 +89,4 @@ fi
 
 source ~/dotfiles/zsh/prompt.sh
 
-#NVM (Node Version Manager)
-if [ -f /usr/share/nvm/init-nvm.sh ]; then
-	source /usr/share/nvm/init-nvm.sh
-fi
+
