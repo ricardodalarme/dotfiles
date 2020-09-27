@@ -30,6 +30,10 @@
 		[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 	fi
 
+	# go lang workspace
+	if [ -d $HOME/prog ]; then
+		export GOPATH=$HOME/prog/go
+	fi
 
 	# zsh config
 	HISTFILE=~/.zsh_history
