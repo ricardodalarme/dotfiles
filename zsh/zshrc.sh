@@ -1,10 +1,4 @@
 # Vars
-	# golang
-	if [ -d $HOME/prog/go ]; then
-		export GOPATH=~/prog/go
-		export PATH=$PATH:~/bin:$GOPATH/bin
-	fi
-
 	# android studio tools
 	if [ -d $HOME/Android/Sdk ]; then
 		export ANDROID_HOME=$HOME/Android/Sdk
