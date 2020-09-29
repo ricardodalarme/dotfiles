@@ -1,4 +1,8 @@
 # Vars
+	if [ -d $HOME/bin ]; then
+		export PATH=$HOME/bin:$PATH
+	fi
+
 	# android studio tools
 	if [ -d $HOME/Android/Sdk ]; then
 		export ANDROID_HOME=$HOME/Android/Sdk
