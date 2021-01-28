@@ -39,6 +39,12 @@
 		export GOPATH=$HOME/prog/go
 	fi
 
+	# updates PATH for the Google Cloud SDK.
+	if [ -f '/home/iuriatan/google-cloud-sdk/path.zsh.inc' ]; then . '/home/iuriatan/google-cloud-sdk/path.zsh.inc'; fi
+
+	# enables shell command completion for gcloud.
+	if [ -f '/home/iuriatan/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/iuriatan/google-cloud-sdk/completion.zsh.inc'; fi
+
 	# zsh config
 	HISTFILE=~/.zsh_history
 	SAVEHIST=1000 
