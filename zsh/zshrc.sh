@@ -97,11 +97,3 @@ fi
 
 source ~/dotfiles/zsh/prompt.sh
 
-# DeliveryCenter environment (temp) exports
-export APP_VERSION=local
-export DB_LOCAL_USERNAME=warehouse
-export DB_LOCAL_PASSWORD=warehouse
-export DB_LOCAL_DATABASE=warehouse_dev
-export DB_LOCAL_PORT=5455
-export PUBSUB_HOST_PORT=http://localhost:8681
-
