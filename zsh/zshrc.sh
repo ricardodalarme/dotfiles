@@ -45,6 +45,12 @@
 	# enables shell command completion for gcloud.
 	if [ -f '/home/iuriatan/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/iuriatan/google-cloud-sdk/completion.zsh.inc'; fi
 
+	# Ruby Version Manager
+	if [ -d $HOME/.rvm/bin  ]; then
+		export PATH="$PATH:$HOME/.rvm/bin"
+		[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+	fi
+
 	# zsh config
 	HISTFILE=~/.zsh_history
 	SAVEHIST=1000 
