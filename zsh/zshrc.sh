@@ -51,6 +51,14 @@
 		[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 	fi
 
+	# asdf (https://asdf-vm.com/)
+	if [ -d $HOME/.asdf ]; then
+		. $HOME/.asdf/asdf.sh
+		fpath=(${ASDF_DIR}/completions $fpath)
+		autoload -Uz compinit
+		compinit
+	fi
+
 	# zsh config
 	HISTFILE=~/.zsh_history
 	SAVEHIST=1000 
