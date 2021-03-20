@@ -1,6 +1,6 @@
 #!/bin/sh
 prompt_install() {
-	echo -n "$1 não está instalado, gostaria de instalar? (y/n) " >&2
+	echo -n "instalar $1? (y/n) " >&2
 	old_stty_cfg=$(stty -g)
 	stty raw -echo
 	answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
@@ -20,54 +20,52 @@ prompt_install() {
 			sudo pacman -S $1
 
 		else
-			echo "Não pudemos inferir a aplicação gerenciadora de pacotes! Tente instalar $1 por sua conta e depois execute este procedimento novamente." 
+			echo "Não pudemos inferir a aplicação gerenciadora de pacotes. Instale $1 por sua conta e depois execute este procedimento novamente." 
 		fi 
 	fi
 }
 
 check_for_software() {
-	echo "Testando se $1 está instalado"
+	echo -n "Confirmando instalação do $1: "
 	if ! [ -x "$(command -v $1)" ]; then
+		echo "✗ negativo"
 		prompt_install $1
 	else
-		echo "$1 está instalado"
+		echo "✓ ok"
 	fi
 }
 
 check_default_shell() {
+	echo -n "Interpretador de comandos (default shell): "
 	if [ -z "${SHELL##*zsh*}" ] ;then
-			echo "O interpretador de comandos padrão é o zsh."
+			echo "✓ zsh"
 	else
-		echo -n "O insterpretador padrão não é o zsh. podemos mudar isso? (chsh -s \$(which zsh)) (y/n)"
+		echo -n "✗ não é o zsh. Redefinir (chsh -s \$(which zsh))? (y/n) "
 		old_stty_cfg=$(stty -g)
 		stty raw -echo
 		answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
 		stty $old_stty_cfg && echo
 		if echo "$answer" | grep -iq "^y" ;then
-			chsh -s $(which zsh)
+			chsh -s $(which zsh) && echo " ... ✓ ok"
 		else
-			echo "Alerta: Se você habilitar a execução automática do tmux junto ao zsh, zsh não será o interpretador dentro do tmux."
+			echo "Alerta: se você habilitar a execução automática do tmux junto ao zsh, zsh não será o interpretador dentro do tmux."
 		fi
 	fi
 }
 
 vim_plugin_prompt_install() {
-	if ! [ -x "$(command -v git)" ]; then
-		echo "Ops! A instalação do pathogen utiliza o comando 'curl'."
-		prompt_install git
-	fi
 	if [ -e ~/.vim/bundle/$(basename $1) ]; then
-		echo "O plugin $(basename $1) já está instalado."
+		echo "   . $(basename $1 | sed -e 's/.git//'): ✓ ok"
 	else
-		echo -n "O plugin $(basename $1) não está instalado, gostaria de instalar? (y/n) " >&2
+		echo -n "   . $(basename $1 | sed -e 's/.git//'): ✗ Instalar? (y/n) " >&2
 		old_stty_cfg=$(stty -g)
 		stty raw -echo
 		answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
-		stty $old_stty_cfg && echo
+		stty $old_stty_cfg 
 		if echo "$answer" | grep -iq "^y" ;then
 			git clone $1 ~/.vim/bundle/$(basename $1)
 		else
-			echo "Ignorando instalação de $(basename $1)"
+			echo "Ignorando"
 		fi
 	fi
 }
@@ -91,16 +89,26 @@ vim_plugins_install() {
 	vim_plugin_prompt_install https://tpope.io/vim/surround.git
 }
 
+asdf_vm_install() {
+	echo -n "Confirmando instalação do asdf: "
+	if [ -e ~/.asdf ]; then
+		echo "✓ ok"
+	else
+		echo -n "✗ negativo. Instando ... "
+		git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.0
+		[ 0 -eq $? ] && echo "✓ ok"
+	fi
+}
+
 echo "O procedimento de instalação é"
-echo "1. Teste para assegurar que vc tenha instalados"
-echo "   . zsh,"
-echo "   . vim,"
-echo "   . tmux,"
-echo "   . xclip."
-echo "2. Instalação dos que estiverem faltando"
+echo "1. Teste para assegurar que vc tenha instalado:"
+echo "   . zsh, vim, tmux, xclip"
+echo "   . git, curl"
+echo "   . asdf"
+echo "2. Instalação do que estiver faltando"
 echo "3. Verificar se seu interpretador padrão é o zsh"
-echo "4. Tentaremos definir isto, se não estiver" 
-echo "5. Instalaremos o Pathogen e os plugins"
+echo "4. Redefinir seu interpretador padrão, se necessário" 
+echo "5. Instalar o Pathogen e plugins do vim"
 
 echo "Vamos lá? (y/n)"
 old_stty_cfg=$(stty -g)
@@ -116,19 +124,19 @@ fi
 
 
 check_for_software zsh
-echo 
 check_for_software vim
-echo
 check_for_software tmux
-echo
 check_for_software xclip
+check_for_software curl
+check_for_software git
+asdf_vm_install
 echo
 
 check_default_shell
 vim_plugins_install
 
 echo
-echo -n "Você gostaria de salvar os atuais dotfiles? (y/n) "
+echo -n "Você gostaria de salvar (renomear para *.old) os atuais dotfiles? (y/n)"
 old_stty_cfg=$(stty -g)
 stty raw -echo
 answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
@@ -147,3 +155,4 @@ printf "source-file $HOME/dotfiles/tmux/tmux.conf" > ~/.tmux.conf
 
 echo
 echo "Refaça o login para carregar as novas configurações do seu shell. Obrgiado!"
+
