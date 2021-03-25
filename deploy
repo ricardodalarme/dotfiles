@@ -102,7 +102,7 @@ asdf_vm_install() {
 
 echo "O procedimento de instalação é"
 echo "1. Teste para assegurar que vc tenha instalado:"
-echo "   . zsh, vim, tmux, xclip"
+echo "   . zsh, vim, tmux, xclip, exa"
 echo "   . git, curl"
 echo "   . asdf"
 echo "2. Instalação do que estiver faltando"
@@ -127,6 +127,7 @@ check_for_software zsh
 check_for_software vim
 check_for_software tmux
 check_for_software xclip
+checl_for_software exa
 check_for_software curl
 check_for_software git
 asdf_vm_install

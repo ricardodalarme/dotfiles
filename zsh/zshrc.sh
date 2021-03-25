@@ -68,7 +68,7 @@ source ~/dotfiles/zsh/plugins/fixls.zsh
 	# Custom cd
 	c() {
 		cd $1;
-		ls;
+		exa;
 	}
 	alias cd="c"
 
