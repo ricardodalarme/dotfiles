@@ -65,6 +65,8 @@
 source ~/dotfiles/zsh/plugins/fixls.zsh
 
 #Functions
+	source ~/dotfiles/function*.sh
+
 	# Custom cd
 	c() {
 		cd $1;

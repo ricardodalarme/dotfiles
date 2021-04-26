@@ -21,7 +21,7 @@
 
 # Edit and rerun
 	function edit_and_run() {
-		BUFFER="fc"
+		BUFFER="fc -e vim"
 		zle accept-line
 	}
 	zle -N edit_and_run
