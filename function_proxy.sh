@@ -1,5 +1,6 @@
 function proxy_on() {
-    export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+    #export no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+    export no_proxy=""
 
     if (( $# > 0 )); then
 		# TODO: validate `localhost` address
@@ -29,16 +30,17 @@ function proxy_on() {
         return 0
     fi
 
-    echo -n "username: "; read username
-    if [[ $username != "" ]]; then
-        echo -n "password: "
-        read -es password
-        local pre="$username:$password@"
-    fi
+    #echo -n "username: "; read username
+    #if [[ $username != "" ]]; then
+    #    echo -n "password: "
+    #    read -es password
+    #    local pre="$username:$password@"
+    #fi
 
-    echo -n "server: "; read server
-    echo -n "port: "; read port
-    local proxy=$pre$server:$port
+    #echo -n "server: "; read server
+    #echo -n "port: "; read port
+    #local proxy=$pre$server:$port
+	local proxy="127.0.0.1:1984"
 	proxy_on $proxy
 	return $?
 }
