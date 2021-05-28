@@ -10,8 +10,8 @@ function proxy_on() {
             return 1
         fi
         local proxy=$1
-        export http_proxy="$proxy" \
-               https_proxy=$proxy \
+        export http_proxy="http://$proxy" \
+               https_proxy="https://$proxy" \
                ftp_proxy=$proxy \
                rsync_proxy=$proxy \
 			   HTTP_PROXY=$proxy \
