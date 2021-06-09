@@ -59,7 +59,9 @@
 source ~/dotfiles/zsh/plugins/fixls.zsh
 
 #Functions
-	source ~/dotfiles/function*.sh
+	for i in ~/dotfiles/function*.sh; do
+		source $i
+	done
 
 	# Custom cd
 	c() {
