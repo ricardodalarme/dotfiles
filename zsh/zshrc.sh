@@ -41,6 +41,11 @@
 		compinit
 	fi
 
+	# homebrew config for Rosetta software
+	if [ -d /usr/local/Homebrew -a "$(uname -m)" = "x86_64" ]; then
+		eval "$(/usr/local/Homebrew/bin/brew shellenv)"
+	fi
+
 	# zsh config
 	HISTFILE=~/.zsh_history
 	SAVEHIST=1000 
