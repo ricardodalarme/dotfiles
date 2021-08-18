@@ -12,27 +12,6 @@
 		export PATH=$PATH:$ANDROID_HOME/platform-tools
 	fi
 
-	# dart's package system (pub)
-	if [ -d $HOME/.pub-cache/bin ]; then
-		export PATH=$PATH:$HOME/.pub-cache/bin
-	fi
-
-	# flutter version manager
-	if [ -d $HOME/fvm/default/bin ]; then
-		export PATH=$PATH:$HOME/fvm/default/bin
-	fi
-
-	# go lang workspace
-	if [ -d $HOME/prog ]; then
-		export GOPATH=$HOME/prog/go
-	fi
-
-	# updates PATH for the Google Cloud SDK.
-	if [ -f '/home/iuriatan/google-cloud-sdk/path.zsh.inc' ]; then . '/home/iuriatan/google-cloud-sdk/path.zsh.inc'; fi
-
-	# enables shell command completion for gcloud.
-	if [ -f '/home/iuriatan/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/iuriatan/google-cloud-sdk/completion.zsh.inc'; fi
-
 	# asdf (https://asdf-vm.com/)
 	if [ -d $HOME/.asdf ]; then
 		. $HOME/.asdf/asdf.sh
@@ -54,6 +33,7 @@
 
 # Aliases
 	alias v="vim -p"
+	alias ls="exa"
 	
 	# This is currently causing problems (fails when you run it anywhere that isn't a git project's root directory)
 	# alias vs="v `git status --porcelain | sed -ne 's/^ M //p'`"
