@@ -1,5 +1,5 @@
 # Helper Functions
-select_asdf() 
+get_asdf_data_dir() 
 {
 	ASDF_TREE_COUNT="$(ls -a ~ | grep .asdf | wc -l | sed 's/ *//g')"
 	if [ $ASDF_TREE_COUNT -eq 1 ]; then
@@ -11,11 +11,11 @@ select_asdf()
 	ARCH="$(uname -m)"
 
 	if [ $ARCH = "arm64" -a $SO = "Darwin" ]; then
-		echo ".asdf"
+		echo "$HOME/.asdf"
 	elif [ $ARCH = "x86_64" -a $SO = "Linux" ]; then
-		echo ".asdf"
+		echo "$HOME/.asdf"
 	else
-		echo ".asdf-$ARCH"
+		echo "$HOME/.asdf-$ARCH"
 	fi
 }
 
@@ -34,10 +34,10 @@ select_asdf()
 	fi
 
 	# asdf (https://asdf-vm.com/)
-	ASDF_DIR=$(select_asdf)
+	export ASDF_DATA_DIR=$(get_asdf_data_dir)
 
-	if [ -d $HOME/$ASDF_DIR ]; then
-		. $HOME/$ASDF_DIR/asdf.sh
+	if [ -d $ASDF_DATA_DIR ]; then
+		. $ASDF_DATA_DIR/asdf.sh
 		fpath=(${ASDF_DIR}/completions $fpath)
 		autoload -Uz compinit
 		compinit
