@@ -1,3 +1,24 @@
+# Helper Functions
+select_asdf() 
+{
+	ASDF_TREE_COUNT="$(ls -a ~ | grep .asdf | wc -l | sed 's/ *//g')"
+	if [ $ASDF_TREE_COUNT -eq 1 ]; then
+		ls -a ~| grep .asdf | sed 's/ *//g'
+		exit 0
+	fi
+
+	SO="$(uname -s)"
+	ARCH="$(uname -m)"
+
+	if [ $ARCH = "arm64" -a $SO = "Darwin" ]; then
+		echo ".asdf"
+	elif [ $ARCH = "x86_64" -a $SO = "Linux" ]; then
+		echo ".asdf"
+	else
+		echo ".asdf-$ARCH"
+	fi
+}
+
 # Vars
 	if [ -d $HOME/bin ]; then
 		export PATH=$HOME/bin:$PATH
@@ -13,8 +34,10 @@
 	fi
 
 	# asdf (https://asdf-vm.com/)
-	if [ -d $HOME/.asdf ]; then
-		. $HOME/.asdf/asdf.sh
+	ASDF_DIR=$(select_asdf)
+
+	if [ -d $HOME/$ASDF_DIR ]; then
+		. $HOME/$ASDF_DIR/asdf.sh
 		fpath=(${ASDF_DIR}/completions $fpath)
 		autoload -Uz compinit
 		compinit
@@ -30,6 +53,11 @@
 	SAVEHIST=1000 
 	setopt inc_append_history # To save every command before it is executed 
 	setopt share_history # setopt inc_append_history
+
+	# macOS Rosetta
+	if [ "$(uname -s)" = "Darwin" ]; then
+		alias rosetta='arch -x86_64 zsh --login'
+	fi
 
 # Aliases
 	alias v="vim -p"
