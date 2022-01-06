@@ -3,7 +3,7 @@ get_asdf_data_dir()
 {
 	ASDF_TREE_COUNT="$(ls -a ~ | grep .asdf | wc -l | sed 's/ *//g')"
 	if [ $ASDF_TREE_COUNT -eq 1 ]; then
-		ls -a ~| grep .asdf | sed 's/ *//g'
+		echo $HOME/$(ls -a ~| grep .asdf | sed 's/ *//g')
 		exit 0
 	fi
 
@@ -39,8 +39,7 @@ get_asdf_data_dir()
 	if [ -d $ASDF_DATA_DIR ]; then
 		. $ASDF_DATA_DIR/asdf.sh
 		fpath=(${ASDF_DIR}/completions $fpath)
-		autoload -Uz compinit
-		compinit
+		autoload -Uz compinit && compinit
 	fi
 
 	# homebrew config for Rosetta software
@@ -69,7 +68,7 @@ get_asdf_data_dir()
 # Settings
 	export VISUAL=vim
 
-source ~/dotfiles/zsh/plugins/fixls.zsh
+	#source ~/dotfiles/zsh/plugins/fixls.zsh
 
 #Functions
 	for i in ~/dotfiles/function*.sh; do
