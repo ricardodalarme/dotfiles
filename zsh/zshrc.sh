@@ -24,6 +24,11 @@ get_asdf_data_dir()
 		export PATH=$HOME/bin:$PATH
 	fi
 
+	# Python PIP installed tools
+	if [ -d $HOME/.local/bin ]; then
+		export PATH=$HOME/.local/bin:$PATH
+	fi
+
 	# android studio tools
 	if [ -d $HOME/Android/Sdk ]; then
 		export ANDROID_HOME=$HOME/Android/Sdk
