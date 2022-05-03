@@ -36,6 +36,12 @@ get_asdf_data_dir()
 		export PATH=$PATH:$ANDROID_HOME/tools
 		export PATH=$PATH:$ANDROID_HOME/tools/bin
 		export PATH=$PATH:$ANDROID_HOME/platform-tools
+	elif [ -d $HOME/Library/Android/sdk ]; then
+		export ANDROID_HOME=$HOME/Library/Android/sdk
+		export PATH=$PATH:$ANDROID_HOME/emulator
+		export PATH=$PATH:$ANDROID_HOME/tools
+		export PATH=$PATH:$ANDROID_HOME/tools/bin
+		export PATH=$PATH:$ANDROID_HOME/platform-tools
 	fi
 
 	# asdf (https://asdf-vm.com/)
@@ -50,6 +56,11 @@ get_asdf_data_dir()
 	# homebrew config for Rosetta software
 	if [ -d /usr/local/Homebrew -a "$(uname -m)" = "x86_64" ]; then
 		eval "$(/usr/local/Homebrew/bin/brew shellenv)"
+	fi
+
+	# mint binaries
+	if [ -d $HOME/.mint/bin ]; then
+		export PATH=$HOME/.mint/bin:$PATH
 	fi
 
 	# zsh config
