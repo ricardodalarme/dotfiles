@@ -130,6 +130,7 @@ check_for_software xclip
 checl_for_software exa
 check_for_software curl
 check_for_software git
+check_for_software zoxide
 asdf_vm_install
 echo
 

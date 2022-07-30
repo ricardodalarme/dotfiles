@@ -63,6 +63,11 @@ get_asdf_data_dir()
 		export PATH=$HOME/.mint/bin:$PATH
 	fi
 
+	# autojump (zoxide) init
+	if [ -e "$(which zoxide)" ]; then
+		eval "$(zoxide init zsh)"
+	fi
+
 	# zsh config
 	HISTFILE=~/.zsh_history
 	SAVEHIST=1000 
