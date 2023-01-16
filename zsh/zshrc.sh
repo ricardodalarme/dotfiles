@@ -70,6 +70,11 @@ get_asdf_data_dir()
 		eval "$(zoxide init zsh)"
 	fi
 
+	# flyctl (https://fly.io)
+	if [ -e "$HOME/.fly/bin" ]; then
+		export PATH=$HOME/.fly/bin:$PATH
+	fi
+
 	# zsh config
 	HISTFILE=~/.zsh_history
 	SAVEHIST=1000 
