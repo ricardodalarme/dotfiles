@@ -94,7 +94,7 @@ asdf_vm_install() {
 echo "Deploying dotfiles is about"
 echo "1. Checking for useful apps:"
 echo "   . zsh, vim, tmux, xclip, exa, zoxide"
-echo "   . git, curl"
+echo "   . git, tig, curl"
 echo "   . asdf"
 echo "2. Install what may be missing"
 echo "3. Check and define zsh as default shell, if necessary"
@@ -119,6 +119,7 @@ check_for_software tmux
 check_for_software exa
 check_for_software curl
 check_for_software git
+check_for_software tig
 check_for_software zoxide
 asdf_vm_install
 echo
@@ -136,6 +137,7 @@ if echo "$answer" | grep -iq "^y" ;then
 	mv ~/.zshrc ~/.zshrc.old
 	mv ~/.zprofile ~/.zprofile.old
 	mv ~/.tmux.conf ~/.tmux.conf.old
+	mv ~/.tigrc ~/.tigrc.old
 	mv ~/.vimrc ~/.vimrc.old
 else
 	echo -e "\nOld dotfiles will be overwritten."
@@ -143,6 +145,7 @@ fi
 
 printf "source '$HOME/dotfiles/zsh/zshrc_manager.sh'" > ~/.zshrc
 printf "source '$HOME/dotfiles/profile.sh'" > ~/.zprofile
+ln -s ./tigrc ~/.tigrc
 printf "so $HOME/dotfiles/vim/vimrc.vim" > ~/.vimrc
 printf "source-file $HOME/dotfiles/tmux/tmux.conf" > ~/.tmux.conf
 
