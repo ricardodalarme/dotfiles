@@ -25,13 +25,6 @@
 		autoload -Uz compinit && compinit
 	fi
 
-	# homebrew config for Rosetta software
-	if [ -d /usr/local/Homebrew -a "$(uname -m)" = "x86_64" ]; then
-		eval "$(/usr/local/Homebrew/bin/brew shellenv)"
-	elif [ -d /opt/homebrew -a "$(uname -m)" = "arm64" ]; then
-		eval "$(/opt/homebrew/bin/brew shellenv)"
-	fi
-
 	# mint binaries
 	if [ -d $HOME/.mint/bin ]; then
 		export PATH=$HOME/.mint/bin:$PATH
