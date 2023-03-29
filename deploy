@@ -1,34 +1,27 @@
 #!/bin/sh
 prompt_install() {
-	echo -n "instalar $1? (y/n) " >&2
+	echo -n "install $1? (y/n) " >&2
 	old_stty_cfg=$(stty -g)
 	stty raw -echo
 	answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
 	stty $old_stty_cfg && echo
 	if echo "$answer" | grep -iq "^y" ;then
-		# This could def use community support
-		if [ -x "$(command -v apt)" ]; then
-			sudo apt install $1 -y
-
-		elif [ -x "$(command -v brew)" ]; then
+		if [ -x "$(command -v brew)" ]; then
 			brew install $1
-
-		elif [ -x "$(command -v pkg)" ]; then
-			sudo pkg install $1
 
 		elif [ -x "$(command -v pacman)" ]; then
 			sudo pacman -S $1
 
 		else
-			echo "Não pudemos inferir a aplicação gerenciadora de pacotes. Instale $1 por sua conta e depois execute este procedimento novamente." 
+			echo "Package system could not be infered. Install $1 and launch deploy again." 
 		fi 
 	fi
 }
 
 check_for_software() {
-	echo -n "Confirmando instalação do $1: "
+	echo -n "Checking if $1 is installed: "
 	if ! [ -x "$(command -v $1)" ]; then
-		echo "✗ negativo"
+		echo "✗ no"
 		prompt_install $1
 	else
 		echo "✓ ok"
@@ -36,19 +29,17 @@ check_for_software() {
 }
 
 check_default_shell() {
-	echo -n "Interpretador de comandos (default shell): "
+	echo -n "Checking default shell: "
 	if [ -z "${SHELL##*zsh*}" ] ;then
 			echo "✓ zsh"
 	else
-		echo -n "✗ não é o zsh. Redefinir (chsh -s \$(which zsh))? (y/n) "
+		echo -n "✗ it is not zsh. Change this? (chsh -s \$(which zsh))? (y/n) "
 		old_stty_cfg=$(stty -g)
 		stty raw -echo
 		answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
 		stty $old_stty_cfg && echo
 		if echo "$answer" | grep -iq "^y" ;then
 			chsh -s $(which zsh) && echo " ... ✓ ok"
-		else
-			echo "Alerta: se você habilitar a execução automática do tmux junto ao zsh, zsh não será o interpretador dentro do tmux."
 		fi
 	fi
 }
@@ -57,7 +48,7 @@ vim_plugin_prompt_install() {
 	if [ -e ~/.vim/bundle/$(basename $1) ]; then
 		echo "   . $(basename $1 | sed -e 's/.git//'): ✓ ok"
 	else
-		echo -n "   . $(basename $1 | sed -e 's/.git//'): ✗ Instalar? (y/n) " >&2
+		echo -n "   . $(basename $1 | sed -e 's/.git//'): ✗ Instalall? (y/n) " >&2
 		old_stty_cfg=$(stty -g)
 		stty raw -echo
 		answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
@@ -65,52 +56,51 @@ vim_plugin_prompt_install() {
 		if echo "$answer" | grep -iq "^y" ;then
 			git clone $1 ~/.vim/bundle/$(basename $1)
 		else
-			echo "Ignorando"
+			echo "Ignoring"
 		fi
 	fi
 }
 
 vim_plugins_install() {
-	echo "Confirmando instalação do vim-pathogen (https://github.com/tpope/vim-pathogen)"
+	echo "Checking for vim-pathogen (https://github.com/tpope/vim-pathogen)"
 	if [ -e ~/.vim/autoload/pathogen.vim ]; then
-		echo "O pathogen parece já estar instalado"
+		echo "pathogen is installed"
 	else 
-		echo "O pathogen parece não estar instalado. Istalando"
+		echo "couldn't find pathogen. Install it?"
 		if ! [ -x "$(command -v curl)" ]; then
-			echo "Ops! A instalação do pathogen utiliza o comando 'curl'."
+			echo "Ops! Missing the command 'curl'."
 			prompt_install curl
 		fi
 		mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 	fi
 
-	echo "Instalando pugins para o vim:"
+	echo "Installing vim plugins:"
 	vim_plugin_prompt_install https://github.com/leafgarland/typescript-vim.git
 	vim_plugin_prompt_install https://github.com/scrooloose/nerdtree.git
 	vim_plugin_prompt_install https://tpope.io/vim/surround.git
 }
 
 asdf_vm_install() {
-	echo -n "Confirmando instalação do asdf: "
+	echo -n "Checking for asdf-vm: "
 	if [ -e ~/.asdf ]; then
 		echo "✓ ok"
 	else
-		echo -n "✗ negativo. Instando ... "
+		echo -n "✗ nope. Installing ... "
 		git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.0
 		[ 0 -eq $? ] && echo "✓ ok"
 	fi
 }
 
-echo "O procedimento de instalação é"
-echo "1. Teste para assegurar que vc tenha instalado:"
-echo "   . zsh, vim, tmux, xclip, exa"
+echo "Deploying dotfiles is about"
+echo "1. Checking for useful apps:"
+echo "   . zsh, vim, tmux, xclip, exa, zoxide"
 echo "   . git, curl"
 echo "   . asdf"
-echo "2. Instalação do que estiver faltando"
-echo "3. Verificar se seu interpretador padrão é o zsh"
-echo "4. Redefinir seu interpretador padrão, se necessário" 
-echo "5. Instalar o Pathogen e plugins do vim"
+echo "2. Install what may be missing"
+echo "3. Check and define zsh as default shell, if necessary"
+echo "5. Install pathogen and some vim plugins"
 
-echo "Vamos lá? (y/n)"
+echo "Let's start? (y/n)"
 old_stty_cfg=$(stty -g)
 stty raw -echo
 answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
@@ -118,7 +108,7 @@ stty $old_stty_cfg
 if echo "$answer" | grep -iq "^y" ;then
 	echo 
 else
-	echo "Saindo, nada foi alterado."
+	echo "Leaving, nothing has been changed."
 	exit 0
 fi
 
@@ -137,24 +127,25 @@ check_default_shell
 vim_plugins_install
 
 echo
-echo -n "Você gostaria de salvar (renomear para *.old) os atuais dotfiles? (y/n)"
+echo -n "Would you like to save (rename to *.old) current dotfiles? (y/n)"
 old_stty_cfg=$(stty -g)
 stty raw -echo
 answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
 stty $old_stty_cfg
 if echo "$answer" | grep -iq "^y" ;then
 	mv ~/.zshrc ~/.zshrc.old
+	mv ~/.zprofile ~/.zprofile.old
 	mv ~/.tmux.conf ~/.tmux.conf.old
 	mv ~/.vimrc ~/.vimrc.old
 else
-	echo -e "\nSaindo sem copiar os antigos dotfiles."
+	echo -e "\nOld dotfiles will be overwritten."
 fi
 
 printf "source '$HOME/dotfiles/zsh/zshrc_manager.sh'" > ~/.zshrc
-printf "source '$HOME/dotfiles/profile.sh" > ~/.zprofile
+printf "source '$HOME/dotfiles/profile.sh'" > ~/.zprofile
 printf "so $HOME/dotfiles/vim/vimrc.vim" > ~/.vimrc
 printf "source-file $HOME/dotfiles/tmux/tmux.conf" > ~/.tmux.conf
 
 echo
-echo "Refaça o login para carregar as novas configurações do seu shell. Obrgiado!"
+echo "Logout or restart to get new configurations running. Enjoy!"
 
