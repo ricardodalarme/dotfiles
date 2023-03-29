@@ -126,8 +126,7 @@ fi
 check_for_software zsh
 check_for_software vim
 check_for_software tmux
-check_for_software xclip
-checl_for_software exa
+check_for_software exa
 check_for_software curl
 check_for_software git
 check_for_software zoxide
