@@ -37,10 +37,15 @@ set_prompt() {
 		PS1+="%{$fg[magenta]%}$_elapsed[-1]s%{$reset_color%}"
 	fi
 
-	# PID
-	if [[ $! -ne 0 ]]; then
+	# PID: add last bg command
+	if [[ $! -ne 0 && $(ps -p $!) ]]; then
 		PS1+=', '
 		PS1+="%{$fg[yellow]%}PID:$!%{$reset_color%}"
+	fi
+
+	# PID: clear dead bg command
+	if [ $! -ne 0 ] && ! ps -p $! >&-; then
+		PS1=$(echo $PS1 | sed 's/,[^,]*PID:[^]]*//')
 	fi
 
 	# Sudo: https://superuser.com/questions/195781/sudo-is-there-a-command-to-check-if-i-have-sudo-and-or-how-much-time-is-left
