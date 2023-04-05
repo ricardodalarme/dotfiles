@@ -1,0 +1,19 @@
+[alias]
+	lease = push --force-with-lease
+	undo = reset HEAD~1 --mixed
+	original = reset --hard @{u}
+	amend = commit --amend
+	wip = !git add . && git commit -m "wip" --no-verify
+[user]
+	name = ricardodalarme
+	email = ricardo.dalarme@profusion.mobi
+[push]
+	autoSetupRemote = true
+[core]
+	editor = code --wait
+[pull]
+	rebase = true
+[includeIf "gitdir:~/Git/ProFusion/"]
+    path = ~/Git/ProFusion/.gitconfig
+[includeIf "gitdir:~/Git/Personal/"]
+    path = ~/Git/Personal/.gitconfig
