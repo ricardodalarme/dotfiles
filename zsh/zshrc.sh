@@ -19,11 +19,17 @@
 		export PATH=$PATH:$ANDROID_HOME/platform-tools
 	fi
 
-	# asdf completions
+	# zsh completions
 	if [ -d $ASDF_DIR ]; then
+		MACOS_DOCKER_COMPLETION=/Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion
+		if [ "$(uname -s)" = 'Darwin' -a -r "$MACOS_DOCKER_COMPLETION" -a ! -f  "${ASDF_DIR}/completions/_docker" ]; then
+			ln -s "$MACOS_DOCKER_COMPLETION" "$ASDF_DIR/completions/_docker"
+		fi
+
 		fpath=(${ASDF_DIR}/completions $fpath)
 		autoload -Uz compinit && compinit
 	fi
+
 
 	# mint binaries
 	if [ -d $HOME/.mint/bin ]; then
@@ -49,6 +55,11 @@
 	# macOS Rosetta
 	if [ "$(uname -s)" = "Darwin" ]; then
 		alias rosetta='arch -x86_64 zsh --login'
+	fi
+
+	# macOS vs-code alias
+	if [ -x /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code ]; then
+		alias code='/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code'
 	fi
 
 # Aliases
