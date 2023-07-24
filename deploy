@@ -12,6 +12,9 @@ prompt_install() {
 		elif [ -x "$(command -v pacman)" ]; then
 			sudo pacman -S $1
 
+		elif [ -x "$(command -v apt)" ]; then
+			sudo apt install $1
+
 		else
 			echo "Package system could not be infered. Install $1 and launch deploy again." 
 		fi 
