@@ -25,17 +25,17 @@ if [ -d $HOME/bin ]; then
 	export PATH=$HOME/bin:$PATH
 fi
 
-# asdf (https://asdf-vm.com/)
-export ASDF_DATA_DIR=$(get_asdf_data_dir)
-
-if [ -d $ASDF_DATA_DIR ]; then
-	. $ASDF_DATA_DIR/asdf.sh
-fi
-
 # homebrew config (feat. support for rosetta software)
 if [ -d /usr/local/Homebrew -a "$(uname -m)" = "x86_64" ]; then
 	eval "$(/usr/local/Homebrew/bin/brew shellenv)"
 elif [ -d /opt/homebrew -a "$(uname -m)" = "arm64" ]; then
 	eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# asdf (https://asdf-vm.com/)
+export ASDF_DATA_DIR=$(get_asdf_data_dir)
+
+if [ -d $ASDF_DATA_DIR ]; then
+	. $ASDF_DATA_DIR/asdf.sh
 fi
 
