@@ -26,6 +26,12 @@
 			ln -s "$MACOS_DOCKER_COMPLETION" "$ASDF_DIR/completions/_docker"
 		fi
 
+		if type brew &>/dev/null
+		then
+			fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
+		fi
+
+
 		fpath=(${ASDF_DIR}/completions $fpath)
 		autoload -Uz compinit && compinit
 	fi
