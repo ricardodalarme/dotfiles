@@ -1,0 +1,15 @@
+[alias]
+lease = push --force-with-lease
+undo = reset HEAD~1 --mixed
+original = reset --hard @{u}
+amend = commit --amend
+wip = !git add . && git commit -m "wip" --no-verify
+
+[push]
+autoSetupRemote = true
+
+[core]
+editor = code --wait
+
+[pull]
+rebase = true

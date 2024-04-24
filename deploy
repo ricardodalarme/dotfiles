@@ -72,6 +72,7 @@ if [ "$(prompt_user)" = "y" ]; then
 	mv ~/.zshrc ~/.zshrc.old
 	mv ~/.zprofile ~/.zprofile.old
 	mv ~/.tigrc ~/.tigrc.old
+	mv ~/.gitconfig ~/.gitconfig.old
 	echo "Backed up old dotfiles."
 else
 	echo "Old dotfiles will be overwritten."
@@ -80,6 +81,8 @@ fi
 echo "Setting up new configurations."
 printf "source '$HOME/dotfiles/zsh/zshrc_manager.sh'" >~/.zshrc
 printf "source '$HOME/dotfiles/profile.sh'" >~/.zprofile
+
 ln -s ./tigrc ~/.tigrc
+ln -s ./gitconfig ~/.gitconfig
 
 echo "Logout or restart to apply new configurations. Enjoy!"
