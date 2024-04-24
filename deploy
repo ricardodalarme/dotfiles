@@ -47,22 +47,10 @@ check_default_shell() {
 	fi
 }
 
-asdf_vm_install() {
-	echo -n "Checking for asdf-vm: "
-	if [ -e ~/.asdf ]; then
-		echo "✓ ok"
-	else
-		echo -n "✗ nope. Installing ... "
-		git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.0
-		[ 0 -eq $? ] && echo "✓ ok"
-	fi
-}
-
 echo "Deploying dotfiles is about"
 echo "1. Checking for useful apps:"
 echo "   . zsh, xclip, eza, zoxide"
 echo "   . git, tig, curl"
-echo "   . asdf"
 echo "2. Install what may be missing"
 echo "3. Check and define zsh as default shell, if necessary"
 
@@ -85,7 +73,6 @@ check_for_software curl
 check_for_software git
 check_for_software tig
 check_for_software zoxide
-asdf_vm_install
 echo
 
 check_default_shell
