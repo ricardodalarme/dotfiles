@@ -1,6 +1,6 @@
 # Dotfiles (customização de aplicativos) pessoal
 
-Costomizações simples do ZShell e TMUX utilizadas na lida diaŕia em abiente linux.
+Costomizações simples do ZShell utilizadas na lida diaŕia em abiente linux.
 
 ## Instalação
 
@@ -13,7 +13,6 @@ O script de instação executa os seguintes passos pra você:
 
 1. Testa a disponibilidade dos seguintes aplicativos
    - zsh
-   - tmux
    - xcopy (usado para transferir conteúdos copiados para a área de transfereência do ambiente gráfico)
 2. Instala o que estiver pendente utilizando o gerenciador de pacotes disponível;
 3. Confirma se o zsh é seu aplicativo de shell padrão e define isso pra vc;
@@ -67,11 +66,4 @@ _*: conforme ocorre no bash_
 
 * [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions): Searches your history while you type and provides suggestions.
 * [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting/tree/ad522a091429ba180c930f84b2a023b40de4dbcc): Provides fish style syntax highlighting for zsh.
-* [ohmyzsh](https://github.com/robbyrussell/oh-my-zsh/tree/291e96dcd034750fbe7473482508c08833b168e3): Borrowed things like tab completion, fixing ls, tmux's vi-mode plugin.
-
-## [Tmux](https://en.wikipedia.org/wiki/Tmux)
-
-* Ctrl-B has been remapped to the backtick character (&#96;). If you want to type the actual backtick character (&#96;) itself, just hit the key twice.
-* `%` has been remapped to `v`.
-* Copy buffer is coppied to xclip.
-* Status bar tells you date, time, user, and hostname. Especially useful with nested ssh sessions. 
+* [ohmyzsh](https://github.com/robbyrussell/oh-my-zsh/tree/291e96dcd034750fbe7473482508c08833b168e3): Borrowed things like tab completion, fixing ls, and a few other things from oh-my-zsh.
