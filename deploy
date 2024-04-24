@@ -47,42 +47,6 @@ check_default_shell() {
 	fi
 }
 
-vim_plugin_prompt_install() {
-	if [ -e ~/.vim/bundle/$(basename $1) ]; then
-		echo "   . $(basename $1 | sed -e 's/.git//'): ✓ ok"
-	else
-		echo -n "   . $(basename $1 | sed -e 's/.git//'): ✗ Instalall? (y/n) " >&2
-		old_stty_cfg=$(stty -g)
-		stty raw -echo
-		answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
-		stty $old_stty_cfg 
-		if echo "$answer" | grep -iq "^y" ;then
-			git clone $1 ~/.vim/bundle/$(basename $1)
-		else
-			echo "Ignoring"
-		fi
-	fi
-}
-
-vim_plugins_install() {
-	echo "Checking for vim-pathogen (https://github.com/tpope/vim-pathogen)"
-	if [ -e ~/.vim/autoload/pathogen.vim ]; then
-		echo "pathogen is installed"
-	else 
-		echo "couldn't find pathogen. Install it?"
-		if ! [ -x "$(command -v curl)" ]; then
-			echo "Ops! Missing the command 'curl'."
-			prompt_install curl
-		fi
-		mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-	fi
-
-	echo "Installing vim plugins:"
-	vim_plugin_prompt_install https://github.com/leafgarland/typescript-vim.git
-	vim_plugin_prompt_install https://github.com/scrooloose/nerdtree.git
-	vim_plugin_prompt_install https://tpope.io/vim/surround.git
-}
-
 asdf_vm_install() {
 	echo -n "Checking for asdf-vm: "
 	if [ -e ~/.asdf ]; then
@@ -96,12 +60,11 @@ asdf_vm_install() {
 
 echo "Deploying dotfiles is about"
 echo "1. Checking for useful apps:"
-echo "   . zsh, vim, tmux, xclip, exa, zoxide"
+echo "   . zsh, tmux, xclip, exa, zoxide"
 echo "   . git, tig, curl"
 echo "   . asdf"
 echo "2. Install what may be missing"
 echo "3. Check and define zsh as default shell, if necessary"
-echo "5. Install pathogen and some vim plugins"
 
 echo "Let's start? (y/n)"
 old_stty_cfg=$(stty -g)
@@ -117,7 +80,6 @@ fi
 
 
 check_for_software zsh
-check_for_software vim
 check_for_software tmux
 check_for_software exa
 check_for_software curl
@@ -128,7 +90,6 @@ asdf_vm_install
 echo
 
 check_default_shell
-vim_plugins_install
 
 echo
 echo -n "Would you like to save (rename to *.old) current dotfiles? (y/n)"
@@ -141,7 +102,6 @@ if echo "$answer" | grep -iq "^y" ;then
 	mv ~/.zprofile ~/.zprofile.old
 	mv ~/.tmux.conf ~/.tmux.conf.old
 	mv ~/.tigrc ~/.tigrc.old
-	mv ~/.vimrc ~/.vimrc.old
 else
 	echo -e "\nOld dotfiles will be overwritten."
 fi
@@ -149,9 +109,7 @@ fi
 printf "source '$HOME/dotfiles/zsh/zshrc_manager.sh'" > ~/.zshrc
 printf "source '$HOME/dotfiles/profile.sh'" > ~/.zprofile
 ln -s ./tigrc ~/.tigrc
-printf "so $HOME/dotfiles/vim/vimrc.vim" > ~/.vimrc
 printf "source-file $HOME/dotfiles/tmux/tmux.conf" > ~/.tmux.conf
 
 echo
 echo "Logout or restart to get new configurations running. Enjoy!"
-

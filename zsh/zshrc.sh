@@ -69,14 +69,12 @@
 	fi
 
 # Aliases
-	alias v="vim -p"
 	alias ls="eza"
 	
 	# This is currently causing problems (fails when you run it anywhere that isn't a git project's root directory)
 	# alias vs="v `git status --porcelain | sed -ne 's/^ M //p'`"
 
 # Settings
-	export VISUAL=vim
 
 	#source ~/dotfiles/zsh/plugins/fixls.zsh
 
@@ -91,9 +89,6 @@
 		eza;
 	}
 	alias cd="c"
-
-# For vim mappings: 
-	stty -ixon
 
 source ~/dotfiles/zsh/plugins/oh-my-zsh/lib/history.zsh
 source ~/dotfiles/zsh/plugins/oh-my-zsh/lib/key-bindings.zsh
