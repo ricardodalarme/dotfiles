@@ -1,94 +1,91 @@
 # Vars
-	# Python PIP installed tools
-	if [ -d $HOME/.local/bin ]; then
-		export PATH=$HOME/.local/bin:$PATH
+# Python PIP installed tools
+if [ -d $HOME/.local/bin ]; then
+	export PATH=$HOME/.local/bin:$PATH
+fi
+
+# android studio tools
+if [ -d $HOME/Android/Sdk ]; then
+	export ANDROID_HOME=$HOME/Android/Sdk
+	export PATH=$PATH:$ANDROID_HOME/emulator
+	export PATH=$PATH:$ANDROID_HOME/tools
+	export PATH=$PATH:$ANDROID_HOME/tools/bin
+	export PATH=$PATH:$ANDROID_HOME/platform-tools
+elif [ -d $HOME/Library/Android/sdk ]; then
+	export ANDROID_HOME=$HOME/Library/Android/sdk
+	export PATH=$PATH:$ANDROID_HOME/emulator
+	export PATH=$PATH:$ANDROID_HOME/tools
+	export PATH=$PATH:$ANDROID_HOME/tools/bin
+	export PATH=$PATH:$ANDROID_HOME/platform-tools
+fi
+
+# zsh completions
+if [ -d $ASDF_DIR ]; then
+	MACOS_DOCKER_COMPLETION=/Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion
+	if [ "$(uname -s)" = 'Darwin' -a -r "$MACOS_DOCKER_COMPLETION" -a ! -f "${ASDF_DIR}/completions/_docker" ]; then
+		ln -s "$MACOS_DOCKER_COMPLETION" "$ASDF_DIR/completions/_docker"
 	fi
 
-	# android studio tools
-	if [ -d $HOME/Android/Sdk ]; then
-		export ANDROID_HOME=$HOME/Android/Sdk
-		export PATH=$PATH:$ANDROID_HOME/emulator
-		export PATH=$PATH:$ANDROID_HOME/tools
-		export PATH=$PATH:$ANDROID_HOME/tools/bin
-		export PATH=$PATH:$ANDROID_HOME/platform-tools
-	elif [ -d $HOME/Library/Android/sdk ]; then
-		export ANDROID_HOME=$HOME/Library/Android/sdk
-		export PATH=$PATH:$ANDROID_HOME/emulator
-		export PATH=$PATH:$ANDROID_HOME/tools
-		export PATH=$PATH:$ANDROID_HOME/tools/bin
-		export PATH=$PATH:$ANDROID_HOME/platform-tools
+	if type brew &>/dev/null; then
+		fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
 	fi
 
-	# zsh completions
-	if [ -d $ASDF_DIR ]; then
-		MACOS_DOCKER_COMPLETION=/Applications/Docker.app/Contents/Resources/etc/docker.zsh-completion
-		if [ "$(uname -s)" = 'Darwin' -a -r "$MACOS_DOCKER_COMPLETION" -a ! -f  "${ASDF_DIR}/completions/_docker" ]; then
-			ln -s "$MACOS_DOCKER_COMPLETION" "$ASDF_DIR/completions/_docker"
-		fi
+	fpath=(${ASDF_DIR}/completions $fpath)
+	autoload -Uz compinit && compinit
+fi
 
-		if type brew &>/dev/null
-		then
-			fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
-		fi
+# mint binaries
+if [ -d $HOME/.mint/bin ]; then
+	export PATH=$HOME/.mint/bin:$PATH
+fi
 
+# autojump (zoxide) init
+if [ -e "$(which zoxide)" ]; then
+	eval "$(zoxide init zsh)"
+fi
 
-		fpath=(${ASDF_DIR}/completions $fpath)
-		autoload -Uz compinit && compinit
-	fi
+# flyctl (https://fly.io)
+if [ -e "$HOME/.fly/bin" ]; then
+	export PATH=$HOME/.fly/bin:$PATH
+fi
 
+# zsh config
+HISTFILE=~/.zsh_history
+SAVEHIST=1000
+setopt inc_append_history # To save every command before it is executed
+setopt share_history      # setopt inc_append_history
 
-	# mint binaries
-	if [ -d $HOME/.mint/bin ]; then
-		export PATH=$HOME/.mint/bin:$PATH
-	fi
+# macOS Rosetta
+if [ "$(uname -s)" = "Darwin" ]; then
+	alias rosetta='arch -x86_64 zsh --login'
+fi
 
-	# autojump (zoxide) init
-	if [ -e "$(which zoxide)" ]; then
-		eval "$(zoxide init zsh)"
-	fi
-
-	# flyctl (https://fly.io)
-	if [ -e "$HOME/.fly/bin" ]; then
-		export PATH=$HOME/.fly/bin:$PATH
-	fi
-
-	# zsh config
-	HISTFILE=~/.zsh_history
-	SAVEHIST=1000 
-	setopt inc_append_history # To save every command before it is executed 
-	setopt share_history # setopt inc_append_history
-
-	# macOS Rosetta
-	if [ "$(uname -s)" = "Darwin" ]; then
-		alias rosetta='arch -x86_64 zsh --login'
-	fi
-
-	# macOS vs-code alias
-	if [ -x /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code ]; then
-		alias code='/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code'
-	fi
+# macOS vs-code alias
+if [ -x /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code ]; then
+	alias code='/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code'
+fi
 
 # Aliases
-	alias ls="eza"
-	
-	# This is currently causing problems (fails when you run it anywhere that isn't a git project's root directory)
-	# alias vs="v `git status --porcelain | sed -ne 's/^ M //p'`"
+alias ls="eza"
+
+# This is currently causing problems (fails when you run it anywhere that isn't a git project's root directory)
+# alias vs="v `git status --porcelain | sed -ne 's/^ M //p'`"
 
 # Settings
 
-	#source ~/dotfiles/zsh/plugins/fixls.zsh
+#source ~/dotfiles/zsh/plugins/fixls.zsh
 
 #Functions
-	for i in ~/dotfiles/function*.sh; do
-		source $i
-	done
+for i in ~/dotfiles/function*.sh; do
+	source $i
+done
 
-	# Custom cd
-	c() {
-		cd $1;
-		eza;
-	}
-	alias cd="c"
+# Custom cd
+c() {
+	cd $1
+	eza
+}
+alias cd="c"
 
 source ~/dotfiles/zsh/plugins/oh-my-zsh/lib/history.zsh
 source ~/dotfiles/zsh/plugins/oh-my-zsh/lib/key-bindings.zsh
