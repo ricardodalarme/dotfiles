@@ -60,7 +60,7 @@ asdf_vm_install() {
 
 echo "Deploying dotfiles is about"
 echo "1. Checking for useful apps:"
-echo "   . zsh, xclip, exa, zoxide"
+echo "   . zsh, xclip, eza, zoxide"
 echo "   . git, tig, curl"
 echo "   . asdf"
 echo "2. Install what may be missing"
@@ -80,7 +80,7 @@ fi
 
 
 check_for_software zsh
-check_for_software exa
+check_for_software eza
 check_for_software curl
 check_for_software git
 check_for_software tig
