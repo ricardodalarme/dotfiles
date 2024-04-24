@@ -75,11 +75,6 @@ alias ls="eza"
 
 #source ~/dotfiles/zsh/plugins/fixls.zsh
 
-#Functions
-for i in ~/dotfiles/function*.sh; do
-	source $i
-done
-
 # Custom cd
 c() {
 	cd $1
