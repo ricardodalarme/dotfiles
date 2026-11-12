@@ -1,0 +1,75 @@
+# Machine-specific settings (name, email, signing key…) live in ~/.gitconfig.local
+[include]
+	path = ~/.gitconfig.local
+
+[core]
+	editor = code --wait
+	pager = delta
+
+[init]
+	defaultBranch = main
+
+[alias]
+	st = status -sb
+	lg = log --graph --oneline --decorate -20
+	lease = push --force-with-lease
+	undo = reset HEAD~1 --mixed
+	original = reset --hard @{u}
+	amend = commit --amend
+	wip = !git add . && git commit -m "wip" --no-verify
+
+[push]
+	autoSetupRemote = true
+	followTags = true
+
+[pull]
+	rebase = true
+
+[fetch]
+	prune = true
+
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+
+[rerere]
+	enabled = true
+	autoupdate = true
+
+[merge]
+	conflictstyle = zdiff3
+
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+
+[commit]
+	verbose = true
+
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = version:refname
+
+[column]
+	ui = auto
+
+[help]
+	autocorrect = prompt
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true
+	line-numbers = true
+
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

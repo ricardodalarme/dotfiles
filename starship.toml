@@ -1,0 +1,42 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Minimal, monochrome prompt in the spirit of shadcn: neutral text, muted
+# secondary info, one accent for git changes. ANSI colours only, so it follows
+# the terminal theme (light/dark). Needs a Nerd Font for the branch icon.
+
+add_newline = false
+command_timeout = 1000
+
+format = "$directory$git_branch$git_state$git_status$character"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+format = '[$path]($style)[$read_only]($read_only_style) '
+style = 'bold'
+read_only = ' 🔒'
+read_only_style = 'fg:bright-black'
+
+[git_branch]
+symbol = '󰘬 '
+format = '[$symbol$branch]($style) '
+style = 'fg:bright-black'
+
+[git_status]
+format = '[$all_status$ahead_behind]($style) '
+style = 'fg:yellow'
+conflicted = '='
+untracked = '?'
+modified = '!'
+staged = '+'
+renamed = '»'
+deleted = '✘'
+stashed = '≡'
+
+[git_state]
+format = '[\($state( $progress_current/$progress_total)\)]($style) '
+style = 'fg:bright-black'
+
+[character]
+success_symbol = '[❯](bold)'
+error_symbol = '[❯](bold fg:red)'

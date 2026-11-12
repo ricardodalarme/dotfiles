@@ -1,0 +1,12 @@
+# antidote plugin list — order matters.
+# 1. extra completions (adds to fpath before compinit)
+zsh-users/zsh-completions path:src kind:fpath
+# 2. compinit + completion styles (local file)
+$DOTFILES/zsh/completion.zsh
+# 3. fzf-tab must load after compinit and before widget-wrapping plugins
+Aloxaf/fzf-tab
+# 4. plugins that wrap widgets
+MichaelAquilina/zsh-you-should-use
+zsh-users/zsh-autosuggestions
+# 5. syntax highlighting must be last
+zdharma-continuum/fast-syntax-highlighting

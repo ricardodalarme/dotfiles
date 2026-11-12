@@ -1,0 +1,3 @@
+bind main F !git commit --fixup=%(commit) --no-verify
+bind main i !git rebase -i --autosquash %(commit)
+bind main C !git cherry-pick %(commit)

@@ -1,0 +1,86 @@
+#!/bin/bash
+# Installs the dotfiles: tools (Brewfile), symlinks, and the ~/.zshrc hook.
+# Safe to re-run. Existing files are backed up, never silently overwritten.
+set -euo pipefail
+
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKUP_DIR="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
+
+confirm() {
+	local answer
+	read -r -p "$1 (y/n) " -n 1 answer
+	echo
+	[[ "$answer" =~ ^[Yy]$ ]]
+}
+
+# link <source in repo> <target>
+link() {
+	local src="$DOTFILES/$1" dst="$2"
+	mkdir -p "$(dirname "$dst")"
+	if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
+		echo "ok      $dst"
+		return
+	fi
+	if [[ -e "$dst" || -L "$dst" ]]; then
+		mkdir -p "$BACKUP_DIR"
+		mv "$dst" "$BACKUP_DIR/"
+		echo "backup  $dst -> $BACKUP_DIR/"
+	fi
+	ln -s "$src" "$dst"
+	echo "linked  $dst -> $src"
+}
+
+echo "Deploying dotfiles from $DOTFILES"
+confirm "Continue?" || {
+	echo "Nothing changed."
+	exit 0
+}
+
+# 1. Tools
+if command -v brew >/dev/null; then
+	if confirm "Install tools from the Brewfile?"; then
+		brew bundle --file "$DOTFILES/Brewfile"
+	fi
+else
+	echo "Homebrew not found: install it from https://brew.sh, then run: brew bundle --file $DOTFILES/Brewfile"
+fi
+
+# 2. Default shell
+if [[ "$SHELL" != *zsh* ]] && confirm "Make zsh your default shell?"; then
+	chsh -s "$(command -v zsh)"
+fi
+
+# 3. Symlinks
+link gitconfig "$HOME/.gitconfig"
+link tigrc "$HOME/.tigrc"
+link starship.toml "$HOME/.config/starship.toml"
+link ghostty/config "$HOME/.config/ghostty/config"
+
+# 4. ~/.zshrc and ~/.zprofile are small hooks that source the repo, so tools
+#    that append to them (installers, completions…) don't dirty the repo.
+add_hook() {
+	local file="$1" line="$2" target="$3"
+	if ! grep -qF "$target" "$file" 2>/dev/null; then
+		[[ -f "$file" ]] && mkdir -p "$BACKUP_DIR" && cp "$file" "$BACKUP_DIR/"
+		{
+			echo "$line"
+			[[ -f "$file" ]] && cat "$file"
+		} >"$file.tmp" && mv "$file.tmp" "$file"
+		echo "hooked  $file"
+	else
+		echo "ok      $file"
+	fi
+}
+add_hook "$HOME/.zshrc" "source \"$DOTFILES/zsh/zshrc.zsh\"" "$DOTFILES/zsh/zshrc.zsh"
+add_hook "$HOME/.zprofile" "source \"$DOTFILES/profile.sh\"" "$DOTFILES/profile.sh"
+
+# 5. Machine-specific git identity
+if [[ ! -f "$HOME/.gitconfig.local" ]]; then
+	read -r -p "Git name: " git_name
+	read -r -p "Git email: " git_email
+	git config --file "$HOME/.gitconfig.local" user.name "$git_name"
+	git config --file "$HOME/.gitconfig.local" user.email "$git_email"
+	echo "created ~/.gitconfig.local"
+fi
+
+echo "Done. Open a new terminal (the first start downloads the zsh plugins)."
