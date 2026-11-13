@@ -2,8 +2,10 @@
 autoload -U up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-[[ -n ${terminfo[kcuu1]} ]] && bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
-[[ -n ${terminfo[kcud1]} ]] && bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+# Terminals send either ESC [ A or ESC O A depending on the keypad mode: bind both
+for _key in '^[[A' '^[OA'; do bindkey "$_key" up-line-or-beginning-search; done
+for _key in '^[[B' '^[OB'; do bindkey "$_key" down-line-or-beginning-search; done
+unset _key
 
 # Home / End / Delete
 [[ -n ${terminfo[khome]} ]] && bindkey "${terminfo[khome]}" beginning-of-line
